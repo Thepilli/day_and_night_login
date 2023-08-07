@@ -12,32 +12,68 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-void Function(int)? onTap;
-
 class _LoginScreenState extends State<LoginScreen> {
+  bool isFullSun = false;
+  bool isDayMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        setState(() {
+          //rises the sun upon start
+          isFullSun = true;
+        });
+      },
+    );
+  }
+
+  void changeMode(int activeTab) {
+    debugPrint(activeTab.toString());
+    if (activeTab == 0) {
+      //is day
+      setState(() {
+        isFullSun = true;
+        isDayMode = true;
+      });
+    } else {
+      //is night
+      setState(() {
+        isFullSun = false;
+        isDayMode = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Color> lightBgColors = [const Color(0xFF872477), const Color(0xFFFF9485), if (isFullSun) const Color(0xFFFF9D80)];
+    List<Color> darktBgColors = [const Color(0xFF0d1441), const Color(0xFF376ab2), if (isFullSun) const Color(0x000000ff)];
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    Duration duration = const Duration(seconds: 1);
     return Scaffold(
-      body: Container(
+      body: AnimatedContainer(
+        duration: duration,
         height: height,
         width: width,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF872477),
-              Color(0xFFFF9485),
-            ],
+            colors: isDayMode ? lightBgColors : darktBgColors,
           ),
         ),
         child: Stack(
           children: [
             //sun
-            Positioned(
-              bottom: -60.w,
+            AnimatedPositioned(
+              curve: Curves.easeIn,
+              duration: duration,
+              bottom: isFullSun ? -45.w : -120.w,
               left: 30.w,
               child: SvgPicture.asset('assets/icons/Sun.svg'),
             ),
@@ -49,11 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 50.h),
-                  TabSwitch(
-                    width: width,
-                    onTap: (int value) {
-                      debugPrint(value.toString());
-                    },
+                  Center(
+                    child: TabSwitch(
+                      width: width,
+                      onTap: (int value) {
+                        changeMode(value);
+                      },
+                    ),
                   ),
                   SizedBox(height: 25.h),
                   Text(

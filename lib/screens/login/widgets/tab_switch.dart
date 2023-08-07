@@ -15,14 +15,15 @@ class TabSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width * .8,
-      decoration: BoxDecoration(color: AppColors.lightBg, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: AppColors.lightBg.withOpacity(.5), borderRadius: BorderRadius.circular(12)),
       child: DefaultTabController(
         length: 2,
         child: TabBar(
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BoxDecoration(color: AppColors.lightBgdark, borderRadius: BorderRadius.circular(12)),
           indicatorColor: AppColors.lightBgdark,
-          unselectedLabelColor: AppColors.lightBgdark,
+          unselectedLabelColor: AppColors.textDarkColor,
+          dividerColor: Colors.transparent,
           onTap: onTap,
           tabs: const [
             Tab(text: "Morning Login"),
