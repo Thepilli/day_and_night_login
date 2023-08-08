@@ -36,3 +36,5 @@ I encourage users, caregivers, and healthcare professionals to provide feedback,
 The day_night_login Application is released under the MIT License. Refer to the LICENSE file in the repository for more information.
 
 ## Demo
+
+![Alt text](<assets/screenshots/Screenshot 2023-08-07 052541.png>)![Alt text](<assets/screenshots/Screenshot 2023-08-07 052609.png>)
